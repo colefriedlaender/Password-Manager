@@ -24,15 +24,22 @@ export async function readPasswordDoc(passwordName: string) {
   const passwordCollection = await getCollection<PasswordDoc>("passwords");
   return await passwordCollection.findOne({ name: passwordName });
 }
-export async function updatePasswordDocValue(
+export async function updatePasswordDoc(
+  passwordName: string,
+  fieldstoUpdate: Partial<PasswordDoc>
+): Promise<Boolean> {
+  const passwordCollection = await getCollection<PasswordDoc>("passwords");
+  const updateResult = await passwordCollection.updateOne(
+    { name: passwordName },
+    { $set: fieldstoUpdate }
+  );
+  return updateResult.modifiedCount >= 1;
+}
+export async function updatePasswordValue(
   passwordName: string,
   newPasswordValue: string
-) {
-  const passwordCollection = await getCollection("userData");
-  return await passwordCollection.updateOne(
-    { name: passwordName },
-    { $set: { value: newPasswordValue } }
-  );
+): Promise<Boolean> {
+  return await updatePasswordDoc(passwordName, { value: newPasswordValue });
 }
 
 export async function deletePasswordDoc(

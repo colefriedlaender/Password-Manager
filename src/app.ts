@@ -18,6 +18,9 @@ import {
   getCollection,
   createPasswordDoc,
   readPasswordDoc,
+  updatePasswordDoc,
+  updatePasswordValue,
+  deletePasswordDoc,
 } from "./db";
 dotenv.config();
 
@@ -25,12 +28,15 @@ const run = async () => {
   const url = process.env.MONGODB_URL;
 
   try {
-    await connectDB(url, "safe-me-philipp");
+    await connectDB(url, "MOC-Cole");
     await createPasswordDoc({
       name: "Wifi",
       value: "12345",
-    });
-    await readPasswordDoc;
+    }); //
+    // console.log(await updatePasswordDoc("Wifi", { value: "123" }));
+    // console.log(await updatePasswordValue("Wifi", "12345"));
+    // await readPasswordDoc;
+    // console.log(await deletePasswordDoc("Wifi"));
 
     await closeDB();
   } catch (error) {
