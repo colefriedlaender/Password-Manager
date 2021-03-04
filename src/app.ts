@@ -12,7 +12,13 @@ import {
 } from "./commands";
 import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
-import { connectDB, closeDB, getCollection } from "./db";
+import {
+  connectDB,
+  closeDB,
+  getCollection,
+  createPasswordDoc,
+  readPasswordDoc,
+} from "./db";
 dotenv.config();
 
 const run = async () => {
@@ -20,7 +26,12 @@ const run = async () => {
 
   try {
     await connectDB(url, "safe-me-philipp");
-    await getCollection("passwords");
+    await createPasswordDoc({
+      name: "Wifi",
+      value: "12345",
+    });
+    await readPasswordDoc;
+
     await closeDB();
   } catch (error) {
     console.error(error);
