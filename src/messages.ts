@@ -12,12 +12,15 @@ export const printNoAccess = () => {
 };
 
 export const printPasswordSet = (passwordName: string) => {
-  console.log(`You set a new ${passwordName} password.`);
+  console.log(`You set a new  password for ${passwordName}`);
 };
 
 export const printPassword = (passwordName: string, passwordValue: string) => {
   console.log(`Your ${passwordName} password is ${passwordValue}!`);
 };
-export const printReset = (passwordName: string) => {
-  console.log(`Your ${passwordName} password has been changed.`);
+export const printDelete = (passwordName: string) => {
+  console.log(`Your ${passwordName} password has been deleted.`);
+};
+export const printUpdate = (passwordName: string) => {
+  console.log(`Your ${passwordName} password has been updated.`);
 };

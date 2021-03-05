@@ -24,7 +24,7 @@ export const askForPassword = (username: string): Promise<masterPassword> => {
 };
 
 type Action = {
-  command: "get" | "set" | "reset";
+  command: "get" | "set" | "delete" | "update";
   passwordName: string;
 };
 export const askForSelection = (): Promise<Action> =>
@@ -36,7 +36,8 @@ export const askForSelection = (): Promise<Action> =>
       choices: [
         { title: "Get a password", value: "get" },
         { title: "Set a password", value: "set" },
-        { title: "Reset a password", value: "reset" },
+        { title: "Delete a password", value: "delete" },
+        { title: "Update a password", value: "update" },
       ],
     },
     {
@@ -51,6 +52,26 @@ export const askForPasswordValue = async (): Promise<string> => {
     type: "password",
     name: "passwordValue",
     message: "What is the new password?",
+  });
+  return response.passwordValue;
+};
+export const askForPasswordCode = async (
+  passwordName: string
+): Promise<string> => {
+  const response = await prompts({
+    type: "password",
+    name: "passwordValue",
+    message: `What is the current password of ${passwordName}`,
+  });
+  return response.passwordValue;
+};
+export const askForNewPassword = async (
+  passwordName: string
+): Promise<string> => {
+  const response = await prompts({
+    type: "password",
+    name: "passwordValue",
+    message: `What should the now password of ${passwordName} be?`,
   });
   return response.passwordValue;
 };
