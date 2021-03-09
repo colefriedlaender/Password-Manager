@@ -6,9 +6,9 @@ POST http://localhost:3333/api/passwords
 Content-Type: application/json
 
 {   
-    "name": "Wifi",   
+    "name": "New",   
     "value": "super-secret-password"
 }
 
 ### Delete password
-DELETE http://localhost:3333/api/passwords/Wifi
+DELETE http://localhost:3333/api/passwords/New

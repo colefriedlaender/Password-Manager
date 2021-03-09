@@ -4,21 +4,14 @@ import {
   PasswordDoc,
   readPasswordDoc,
 } from "./db";
+import { Boris, parseJSONBody } from "./helper.Function";
 import http from "http";
-
-const Boris = (res: http.ServerResponse, newPassword: PasswordDoc) => {
-  res.statusCode = 200;
-  res.setHeader("Content-Type", "application / json");
-  res.end(JSON.stringify(newPassword));
-  return;
-};
 
 export async function handleGet(
   req: http.IncomingMessage,
-  res: http.ServerResponse
+  res: http.ServerResponse,
+  passwordName: string
 ) {
-  const parts = req.url.split("/");
-  const passwordName = parts[parts.length - 1];
   const passwordDoc = await readPasswordDoc(passwordName);
   console.log(passwordName);
   if (!passwordDoc) {
@@ -33,22 +26,15 @@ export async function handlePost(
   req: http.IncomingMessage,
   res: http.ServerResponse
 ) {
-  let data = "";
-  req.on("data", (chunk) => {
-    data += chunk;
-  });
-  req.on("end", async () => {
-    const newPassword: PasswordDoc = JSON.parse(data);
-    console.log({ newPassword });
-
-    await createPasswordDoc(newPassword);
-    if (!newPassword) {
-      res.statusCode = 404;
-      res.end();
-      return;
-    }
-    Boris(res, newPassword);
-  });
+  const newPassword: PasswordDoc = await parseJSONBody(req);
+  console.log({ newPassword });
+  await createPasswordDoc(newPassword);
+  if (!newPassword) {
+    res.statusCode = 404;
+    res.end();
+    return;
+  }
+  Boris(res, newPassword);
 }
 
 export async function handleDelete(
@@ -66,5 +52,5 @@ export async function handleDelete(
   }
   res.statusCode = 200;
   res.setHeader("Content-Type", "application / json");
-  res.end(JSON.stringify(passwordDoc));
+  res.end(JSON.stringify("This password has been deleted"));
 }
